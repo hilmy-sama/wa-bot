@@ -10,7 +10,7 @@
   "author": "Lawliet",
   "license": "Apache-2.0",
   "dependencies": {
-    "@open-wa/wa-automate": "^4.31.7",
+    "@open-wa/wa-automate": "^4.31.8",
     "@open-wa/wa-decrypt": "^2.0.1",
     "area-selection-js": "0.0.2",
     "axios": "^0.19.2",

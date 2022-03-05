@@ -40,6 +40,7 @@ const daftar = JSON.parse(fs.readFileSync('./lib/daftar.json'))
 const { ind, eng } = require('./lib/text')
 const bent = require('bent')
 var request = require('request');
+const meme = require('./lib/meme.js')
 const rugaapi = require('./lib/rugaapi')
 const resep = require('./lib/resep')
 const images = require('./lib/images')
@@ -91,6 +92,7 @@ module.exports = msgHandler = async (client, message) => {
         pushname = pushname || verifiedName
         const commands = caption || body || ''
         const command = commands.toLowerCase().split(' ')[0] || ''
+        const arg = body.trim().substring(body.indexOf(' ') + 1)
         const args =  commands.split(' ')
         const isCmd = command.startsWith(prefix)
         const chats = (type === 'chat') ? body : (type === 'image' || type === 'video') ? caption : ''
@@ -578,7 +580,7 @@ module.exports = msgHandler = async (client, message) => {
                             .then(() => client.removeParticipant(groupId, sender.id))
                             .then(() => {
                                 client.sendText(from, `*「 ANTI BADWORD 」*\nKamu mengirimkan link grup chat, maaf kamu di kick dari grup 🙁`)
-                            }).catch(() => client.sendText(from, `Untung RIDHO BOT Bukan Admin, Kalo Jadi Admin Udah Aku Kick Tuh! 😑`))
+                            }).catch(() => client.sendText(from, `Untung SANKYU BOT Bukan Admin, Kalo Jadi Admin Udah Aku Kick Tuh! 😑`))
                         } else {
                             return client.reply(from, "Tolong Jaga Ucapan Min 😇", id)
                         }
@@ -662,7 +664,7 @@ module.exports = msgHandler = async (client, message) => {
             break
 
         case '#antilink':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
             if (!isGroupAdmins) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Admin group!`, id)
             if (!isBotGroupAdmins) return client.reply(from, `Perintah ini hanya bisa di gunakan jika Bot menjadi Admin!`, id)
@@ -691,28 +693,28 @@ module.exports = msgHandler = async (client, message) => {
             break   
 
         case '#antibadword':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
             if (!isGroupAdmins) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Admin group!`, id)
             if (!isBotGroupAdmins) return client.reply(from, `Perintah ini hanya bisa di gunakan jika Bot menjadi Admin!`, id)
             if (args[1] == 'enable') {
                 var cek = antibadword.includes(chatId);
                 if(cek){
-                    return client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau RIDHO BOT Akan Kick!`, id)
+                    return client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau SANKYU BOT Akan Kick!`, id)
                 } else {
                     antibadword.push(chatId)
                     fs.writeFileSync('./settings/antibadword.json', JSON.stringify(antibadword))
-                    client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau RIDHO BOT Akan Kick!`, id)
+                    client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau SANKYU BOT Akan Kick!`, id)
                 }
             } else if (args[1] == 'disable') {
                 var cek = antibadword.includes(chatId);
                 if(!cek){
-                    return client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau RIDHO BOT Akan Kick!`, id)
+                    return client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau SANKYU BOT Akan Kick!`, id)
                 } else {
                     let nixx = antibadword.indexOf(chatId)
                     antibadword.splice(nixx, 1)
                     fs.writeFileSync('./settings/antibadword.json', JSON.stringify(antibadword))
-                    client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau RIDHO BOT Akan Kick!`, id)
+                    client.reply(from, `*「 ANTI BADWORD 」*\nPerhatian Untuk Member Grup ${name} Tercinta\nHarap Jangan Toxic Di Sini Atau SANKYU BOT Akan Kick!`, id)
                 }
             } else {
                 client.reply(from, `Pilih enable atau disable !`, id)
@@ -720,8 +722,8 @@ module.exports = msgHandler = async (client, message) => {
             break   
 
         case '#addprem':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner RIDHO BOT!', id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner SANKYU BOT!', id)
                 const addprem = body.slice(9)
                 {
                 premiumNumber.push(addprem+'@c.us')
@@ -731,8 +733,8 @@ module.exports = msgHandler = async (client, message) => {
             break
 
         case '#delprem':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner RIDHO BOT!', id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner SANKYU BOT!', id)
                 const delprem = body.slice(9)
                 let inq = premiumNumber.indexOf(delprem+'@c.us') 
                 premiumNumber.splice(inq, 1)
@@ -750,6 +752,7 @@ module.exports = msgHandler = async (client, message) => {
 
         case '#toimage':
         case '#toimg':
+        case '#stoimg':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
             if (args.length === 2) return client.reply(from, `Hai ${pushname} untuk menggunakan fitur sticker to image, mohon tag stiker! dan kirim pesan *!toimage*`, id)
             if (quotedMsg) {
@@ -810,7 +813,7 @@ module.exports = msgHandler = async (client, message) => {
             break
 
         case '#quran':
-            //if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            //if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
             if (args.length === 1) return client.reply(from, `Kirim perintah Surah Quran kamu dengan cara ketik perintah :\n*#quran* [ Urutan Surat ]\nContoh :\n*#quran 1*`, id)
@@ -863,7 +866,7 @@ module.exports = msgHandler = async (client, message) => {
 
         case '#afk':
                 if (!isPrem) return client.reply(from, `${ubah}Perintah ini hanya untuk user premium! hubungi owner untuk upgrade premium atau ketik #owner${ubah}`, id)
-                //if (!isOwner) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user owner RIDHO BOT', id)
+                //if (!isOwner) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user owner SANKYU BOT', id)
                 const qa = args.join(' ').slice(5)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (isAfkOn) return await client.reply(from, ind.afkOnAlready(), id)
@@ -1104,7 +1107,7 @@ module.exports = msgHandler = async (client, message) => {
             axios.get(apalo).then((result) => {
                 var b = JSON.parse(JSON.stringify(result.data));
                 var cewek =  b[Math.floor(Math.random() * b.length)];
-                client.sendFileFromUrl(from, cewek, 'cowo.jpg', 'aku ganteng gak\n\nby:ridho', id)
+                client.sendFileFromUrl(from, cewek, 'cowo.jpg', 'aku ganteng gak\n\nby:SANKYU', id)
             });
             break
 
@@ -1164,7 +1167,7 @@ module.exports = msgHandler = async (client, message) => {
 ${desc}`)
             break
 
-        /*case '#quoterandom' :
+        case '#quoterandom' :
         case '#quote' :
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
             const quotex = await rugaapi.quote()
@@ -1172,10 +1175,10 @@ ${desc}`)
             .catch(() => {
                 client.reply(from, 'Ada yang Error!', id)
             })
-            break*/
+            break
 
         case '#addlimit':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isOwner, !isPrem) return client.reply(from, 'Perintah ini hanya untuk Owner & Admin bot', id)
             var found = false;
                     Object.keys(limit).forEach((i) => {
@@ -1191,31 +1194,17 @@ ${desc}`)
                     break
 
         case '#ytmp4':
-            if (!isPrem) return client.reply(from, `${ubah}Perintah ini hanya untuk user premium! hubungi owner untuk upgrade premium atau ketik #owner${ubah}`, id)
-            //if (!isGroupMsg) return client.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
-           if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
-            if (args.length === 1) return client.reply(from, `Kirim perintah *#ytmp4 [ Link Yt ]*, untuk contoh silahkan kirim perintah *#readme*`, id)
-            let isLin1 = args[1].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-            if (!isLin1) return client.reply(from, mess.error.Iv, id)
-            try {
-                client.reply(from, mess.wait, id)
-                const ytvh = await fetch(`http://api.vhtear.com/ytdl?link=${args[1]}&apikey=${vhtearkey}`)
-                if (!ytvh.ok) throw new Error(`Error Get Video : ${ytvh.statusText}`)
-                const ytvh2 = await ytvh.json()
-                 if (ytvh2.status == false) {
-                    client.reply(from, `*Maaf Terdapat kesalahan saat mengambil data, mohon pilih media lain...*`, id)
-                } else {
-                    const { title, UrlVideo, imgUrl, size } = await ytvh2.result
-                    if (Number(ytvh2.result.size.split(' MB')[0]) > 30.00) return client.sendFileFromUrl(from, UrlVideo, `${title}.mp4`, `*「 YOUTUBE MP4 」*\n\n• *Judul* : ${title}\n• *Filesize* : ${size}\n\n__Maaf, Durasi video melebihi 30 MB. Silahkan download video melalui link dibawah_.\n${UrlVideo}`, id)
-                    client.sendFileFromUrl(from, imgUrl, 'thumb.jpg', `*「 YOUTUBE MP4 」*\n\n• *Judul* : ${title}\n• *Filesize* : ${size}\n\n_Silahkan tunggu file media sedang dikirim mungkin butuh beberapa menit_`, id)
-                    /await client.sendFileFromUrl(from, UrlVideo, `${title}.mp4`, '', id).catch(() => client.reply(from, mess.error.Yt4, id))
-                    await limitAdd(serial)
-                }
-            } catch (err) {
-                client.sendText(ownerNumber, 'Error ytmp4 : '+ err)
-                client.reply(from, mess.error.Yt4, id)
-                console.log(err)
-            }
+            if (args.length == 1) return client.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp4 [link_yt]`, id)
+            const linkmp4 = args[1].replace('https://youtu.be/','').replace('https://www.youtube.com/watch?v=','')
+			rugaapi.ytmp4(`https://youtu.be/${linkmp4}`)
+            .then(async(res) => {
+				if (res.error) return client.sendFileFromUrl(from, `${res.url}`, '', `${res.error}`)
+				await client.sendFileFromUrl(from, `${res.result.thumb}`, '', `Ditemukan\n\nJudul: ${res.result.title}\nDesc: ${res.result.desc}\nSabar lagi dikirim`, id)
+				await client.sendFileFromUrl(from, `${res.result.url}`, '', '', id)
+				.catch(() => {
+					client.reply(from, `URL Ini ${args[1]} Sudah pernah di Download sebelumnya. URL akan di Reset setelah 1 Jam/60 Menit`, id)
+				})
+			})
             break
 
     
@@ -1249,7 +1238,7 @@ ${desc}`)
 
         case '#iph':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #iph ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #iph SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const t = body.slice(5).split('|')[0]
             const text25 = body.split('|')[1]
@@ -1287,7 +1276,7 @@ ${desc}`)
 
         case '#ift':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #ift ridho`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #ift SANKYU`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const tt = body.slice(5).split('|')[0]
             try {
@@ -1323,7 +1312,7 @@ ${desc}`)
 
         case '#ise':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #ise ridho`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #ise SANKYU`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const ttt = body.slice(5).split('|')[0]
             try {
@@ -1359,7 +1348,7 @@ ${desc}`)
 
         case '#ims':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #ims ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #ims SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const tttt = body.slice(5).split('|')[0]
         const text23 = body.split('|')[1]
@@ -1397,7 +1386,7 @@ ${desc}`)
 
         case '#imr':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #imr ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #imr SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const ttttt = body.slice(5).split('|')[0]
             const text24 = body.split('|')[1]
@@ -1435,7 +1424,7 @@ ${desc}`)
 
         case '#img':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #img ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #img SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const tttttt = body.slice(5).split('|')[0]
         const text21 = body.split('|')[1]
@@ -1473,7 +1462,7 @@ ${desc}`)
 
         case '#irg':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #irg ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #irg SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const ttttttt = body.slice(5).split('|')[0]
         const text22 = body.split('|')[1]
@@ -1511,7 +1500,7 @@ ${desc}`)
 
         case '#inl':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #inl ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #inl SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const tttttttt = body.slice(5).split('|')[0]
             try {
@@ -1548,7 +1537,7 @@ ${desc}`)
 
         case '#icg':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #icg ridho|bot`, id)
+            if (args.length == 1) return client.reply(from, `kirim dengan\n\nPenggunaan: #icg SANKYU|bot`, id)
             client.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
             const ttttttttt = body.slice(5).split('|')[0]
             try {
@@ -1710,7 +1699,7 @@ ${desc}`)
             }
             break   
 
-        /*case '#ytmp3':
+        case '#ytmp3':
             if (!isPrem) return client.reply(from, `${ubah}Perintah ini hanya untuk user premium! hubungi owner untuk upgrade premium atau ketik #owner${ubah}`, id)
             //if (!isGroupMsg) return client.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
            if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -1738,7 +1727,7 @@ ${desc}`)
                 client.sendText(ownerNumber, 'Error ytmp3 : '+ err)
                 client.reply(from, mess.error.Yt3, id)
             }
-            break*/   
+            break
 
         case '#tts':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
@@ -1911,8 +1900,38 @@ ${desc}`)
                 client.reply(from, 'Pilih enable atau disable!', id)
             }
             break
+            
+        case '#upload':
+            if ((isMedia || isQuotedImage)) {
+                const encryptMedia = isQuotedImage ? quotedMsg : message
+                const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                const getUrl = await uploadImages(mediaData, false)
+                const upload = `${getUrl}`
+                client.sendText(from, `${upload} \n\n ini link nya ya`)
+            } else {
+                client.reply(from, 'kirimkan/balas foto/video')
+            }
+            break
+
 
         // ANIME //
+        
+        case '#wait':
+        case '#whatanime':
+            if ((isMedia || isQuotedImage)) {
+                const encryptMedia = isQuotedImage ? quotedMsg : message
+                const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                const getUrl = await uploadImages(mediaData, false)
+                const link = `https://trace.moe/?url=${getUrl}`
+                const scrinshit = await meme.ss(`${link}`)
+                client.sendFile(from, `${scrinshit}`, `anime.jpg`, `${link}`)
+                .catch(() => {
+                    client.reply(from, `Ada yang Error!`, id)
+                })
+            } else {
+				client.reply(from, `Maaf format salah\n\nSilahkan kirim foto dengan caption ${prefix}whatanime\n\nAtau reply foto dengan caption ${prefix}whatanime`, id)
+			}
+            break
         case '#malanime':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
             //if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
@@ -2078,7 +2097,7 @@ ${desc}`)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
             
             await limitAdd(serial)
-            if (args.length === 1) return client.reply(from, `Kirim perintah *#ramalpasangan [kamu|pasangan]*\nContoh : *#ramalpasangan ridho|${pushname}*`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah *#ramalpasangan [kamu|pasangan]*\nContoh : *#ramalpasangan SANKYU|${pushname}*`, id)
             arg = body.trim().split('|')
             if (arg.length >= 2) {
             client.reply(from, mess.wait, id)
@@ -2235,55 +2254,25 @@ ${desc}`)
             })
             break
 
-        case '#wiki':            
-            if (!isPrem) return client.reply(from, `${ubah}Perintah ini hanya untuk user premium! hubungi owner untuk upgrade premium atau ketik #owner${ubah}`, id) 
-            if (args.length === 1) return client.reply(from, 'Kirim perintah *#wiki [query]*\nContoh : *#wiki asu*', id)
-            const query_ = body.slice(6)
-            client.reply(from, mess.wait, id)
-            try {
-                const wiki = await get.get(`https://api.vhtear.com/wikipedia?query=${encodeURIComponent(query_)}&apikey=${vhtearkey}`).json()
-                if (wiki.error) {
-                    client.reply(from, wiki.error, id)
-                } else {
-                    client.sendFileFromUrl(from, wiki.result.ImgResult[0], wiki.jpg, `*Hasil wikipedia from ${query_}*\n\n${wiki.result.Info}`, id).catch(() => hurtz.reply(from, `*Hasil wikipedia from ${query_}*\n\n${wiki.result.Info}`, id))
-                }
-            } catch (err){
-                ERRLOG(err)
-                client.reply(from, `_Mohon maaf kesalahan saat mencari data ${query_}_`)
-            }
-            await client.sendSeen(from)
+        case '#wiki':
+            if (args.length == 1) return client.reply(from, `Untuk mencari suatu kata dari wikipedia\nketik: ${prefix}wiki [kata]`, id)
+            const wikip = body.slice(7)
+            const wikis = await rugaapi.wiki(wikip)
+            await client.reply(from, wikis, id)
+            .catch(() => {
+                client.reply(from, 'Ada yang Error!', id)
+            })
             break
 
         case '#igstalk':
-            if (!isPrem) return client.reply(from, `${ubah}Perintah ini hanya untuk user premium! hubungi owner untuk upgrade premium atau ketik #owner${ubah}`, id) 
-            if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            //if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
-            if (args.length === 1)  return client.reply(from, 'Kirim perintah *#igstalk @username*\nContoh *#igstalk @duar_amjay*', id)
-            arg = body.trim().split(' ')
-            console.log(...arg[1])
-            var slicedArgs = Array.prototype.slice.call(arg, 1);
-            console.log(slicedArgs)
-            const istalk = await slicedArgs.join(' ')
-            console.log(istalk)
-            try {
-            const istalk2 = await axios.get('https://api.vhtear.com/igprofile?query=' + istalk + '&apikey=' + vhtearkey)
-            const { biography, follower, follow, post_count, full_name, username, picture, is_private } = istalk2.data.result
-            const istalk3 = `*User Ditemukan!*
-➸ *Username:* ${username}
-➸ *Nama:* ${full_name}
-➸ *Bio:* ${biography}
-➸ *Mengikuti:* ${follow}
-➸ *Pengikut:* ${follower}
-➸ *Jumlah Postingan:* ${post_count}`
-
-            const pictk = await bent("buffer")(picture)
-            const base64 = `data:image/jpg;base64,${pictk.toString("base64")}`
-            client.sendImage(from, base64, username, istalk3)
-            } catch (err) {
-             console.error(err.message)
-             await client.sendFileFromUrl(from, errorurl2, 'error.png', '💔️ Maaf, User tidak ditemukan')
-           }
-          break
+            if (args.length == 1) return client.reply(from, `Untuk men-stalk akun instagram seseorang\nketik ${prefix}igstalk [username]\ncontoh: ${prefix}stalkig sankyu.bot`, id)
+            const igstalk = await rugaapi.stalkig(args[1])
+            const igstalkpict = await rugaapi.stalkigpict(args[1])
+            await client.sendFileFromUrl(from, igstalkpict, '', igstalk, id)
+            .catch(() => {
+                client.reply(from, 'Ada yang Error!', id)
+            })
+            break
 
         case '#tiktokstalk':
             if (!isPrem) return client.reply(from, `${ubah}Perintah ini hanya untuk user premium! hubungi owner untuk upgrade premium atau ketik #owner${ubah}`, id) 
@@ -2565,7 +2554,7 @@ ${desc}`)
                 heho += '╠➥'
                 heho += ` @${groupMek[i].id.replace(/@c.us/g, '')}\n`
             }
-            heho += '╚═〘 RIDHO BOT 〙✪══'
+            heho += '╚═〘 SANKYU BOT 〙✪══'
             await sleep(2000)
             await client.sendTextWithMentions(from, heho)
             break
@@ -2580,7 +2569,7 @@ ${desc}`)
                 hehe += '╠➥'
                 hehe += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
             }
-            hehe += '╚═〘 RIDHO BOT 〙✪══'
+            hehe += '╚═〘 SANKYU BOT 〙✪══'
             await sleep(2000)
             await client.sendTextWithMentions(from, hehe)
             break
@@ -2652,7 +2641,7 @@ ${desc}`)
             break
 
         case '#ban':
-            if (!isAdmin) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh admin RIDHO BOT!', id)
+            if (!isAdmin) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh admin SANKYU BOT!', id)
                 for (let i = 0; i < mentionedJidList.length; i++) {
                 banned.push(mentionedJidList[i])
                 fs.writeFileSync('./settings/banned.json', JSON.stringify(banned))
@@ -2667,7 +2656,7 @@ ${desc}`)
             break
 
         case '#unban':
-            if (!isAdmin) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh admin ridho!', id)
+            if (!isAdmin) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh admin SANKYU!', id)
                 let xnxx = banned.indexOf(args[0]+'@c.us')
                 banned.splice(xnxx, 0)
                 fs.writeFileSync('./settings/banned.json', JSON.stringify(banned))
@@ -2675,8 +2664,8 @@ ${desc}`)
             break
 
         case '#block':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id) 
-            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner RIDHO BOT!', id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id) 
+            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner SANKYU BOT!', id)
             for (let i = 0; i < mentionedJidList.length; i++) {
                 let unblock = `${mentionedJidList[i]}`
                 await client.contactBlock(unblock).then((a)=>{
@@ -2687,8 +2676,8 @@ ${desc}`)
             break
 
         case '#unblock':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner RIDHO BOT!', id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner SANKYU BOT!', id)
             for (let i = 0; i < mentionedJidList.length; i++) {
                 let unblock = `${mentionedJidList[i]}`
                 await client.contactUnblock(unblock).then((a)=>{
@@ -2843,26 +2832,23 @@ ${desc}`)
             client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
 
-        case '#ridhogroup':
+        case '#SANKYUgroup':
         case '#ridogroup':
-        case '#groupridho':
-        case '#grupridho':
-            client.reply(from, `Link Group RIDHO BOT
-            group 1 : https://chat.whatsapp.com/Kjv5IWzNIeCBSaH4lJKX8v
-            group 2 : https://chat.whatsapp.com/LX1nAiZUuB5FmTCMwe0o4g\nJangan Lupa Join Ya Kak ${pushname}`, id)
+        case '#groupSANKYU':
+        case '#grupSANKYU':
+            client.reply(from, `Link Group SANKYU BOT
+            group 1 : https://chat.whatsapp.com/H0Ol3sKYEoZ1zFMe0IOm0g\nJangan Lupa Join Ya Kak ${pushname}`, id)
             break
 
          case '#sosmed':
             client.reply(from, `*SOSIAL MEDIA OWNER YANG DAPAT DI IKUTI*
-YOUTUBE    : https://youtube.com/c/lowoijo/
-INSTAGRAM  : https://instagram.com/ridho_setiawan02/
-WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya ${pushname}`, id)
+            BLM ADA`, id)
             break    
 
         case '#delete':
-            if (!isGroupMsg) return client.reply(from, 'Fitur ini hanya bisa di gunakan dalam group', id)
-            if (!isGroupAdmins) return client.reply(from, 'Fitur ini hanya bisa di gunakan oleh admin group', id)
-            if (!quotedMsg) return client.reply(from, 'Salah!!, kirim perintah *#delete [tagpesanbot]*', id)
+            //if (!isGroupMsg) return client.reply(from, 'Fitur ini hanya bisa di gunakan dalam group', id)
+            //if (!isGroupAdmins) return client.reply(from, 'Fitur ini hanya bisa di gunakan oleh admin group', id)
+            if (!quotedMsg) return client.reply(from, 'Salah!!, kirim perintah *#delete [tag pesan bot]*', id)
             if (!quotedMsgObj.fromMe) return client.reply(from, 'Salah!!, Bot tidak bisa mengahpus chat user lain!', id)
             client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
@@ -2870,7 +2856,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
         case '#getses':
             if (!isOwner) return client.reply(from, 'Perintah ini hanya untuk Owner bot', id)            
             const sesPic = await client.getSnapshot()
-            client.sendFile(from, sesPic, 'session.png', 'Nih boss', id)
+            client.sendFile(from, sesPic, 'session.png', '_onegaishimasu_', id)
             break
 
         case '#nulis':
@@ -2885,12 +2871,11 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#lirik':
-            if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
-            if (args.length == 1) return client.reply(from, 'Kirim perintah *#lirik [optional]*, contoh *#lirik aku bukan boneka*', id)
-            const lagu = body.slice(7)
-            const lirik = await liriklagu(lagu)
-            client.reply(from, lirik, id)
+            if (args.length == 1) return aruga.reply(from, `Untuk mencari lirik dari sebuah lagu\bketik: ${prefix}lirik [judul_lagu]`, id)
+            rugaapi.lirik(body.slice(8))
+            .then(async (res) => {
+                await aruga.reply(from, `Lirik Lagu: ${body.slice(8)}\n\n${res}`, id)
+            })
             break
 
         case '#chord':
@@ -2903,8 +2888,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             })
             break
 
-        case '#ridhoadmin':
-            let admn = `This is list of ridho Admin\nTotal : ${adminNumber.length}\n`
+        case '#sankyuadmin':
+        case '#admin':
+            let admn = `This is list of SANKYU Admin\nTotal : ${adminNumber.length}\n`
             for (let i of adminNumber) {
                 admn += `➸ ${i.replace(/@c.us/g,'')}\n`
             }
@@ -2951,14 +2937,14 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case `${prefix}sth`:
-                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
                     const stha = body.slice(5)
                     if (stha.length > 10) return client.reply(from, 'Teksnya kepanjangan sayang', id)
                     client.reply(from, mess.wait, id)
                     client.sendFileFromUrl(from, "https://api.vhtear.com/hartatahta?text=" + stha + "&apikey=" + vhtearkey)
                     break
         case `${prefix}bp`:
-                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
                     const sthaa = body.slice(4)
                     if (sthaa.length > 10) return client.reply(from, 'Teksnya kepanjangan sayang', id)
                     client.reply(from, mess.wait, id)
@@ -2980,7 +2966,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#wait':
-             if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+             if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
              if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id) 
              if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
              if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -3028,7 +3014,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case `${prefix}ttps`:
-                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
                     if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
                     if (quotedMsg) {
                         const quoteText = quotedMsg.type == 'chat' ? quotedMsg.body : quotedMsg.type == 'image' ? quotedMsg.caption : ''
@@ -3040,17 +3026,17 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                     break
 
         case '#ttp2':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
-            if (args.length === 1) return client.reply(from, `Kirim perintah *#ttp2 [ Teks ]*, contoh *#ttp2 ridho*`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah *#ttp2 [ Teks ]*, contoh *#ttp2 SANKYU*`, id)
             const ttp2t = body.slice(6)
             const lttp2 = ["Orange","White","Green","Black","Purple","Red","Yellow","Blue","Navy","Grey","Magenta","Brown","Gold"]
             const rttp2 = lttp2[Math.floor(Math.random() * (lttp2.length))]
             await client.sendStickerfromUrl(from, `https://api.vhtear.com/textmaker?text=${ttp2t}&warna=${rttp2}&apikey=${vhtearkey}`)
             break
         case '#ttg':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
             if (!isGroupMsg) return client.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -3070,7 +3056,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case prefix+'lovemessage':
-            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}lovemessage [ Teks ]*, contoh *${prefix}lovemessage ridho*`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}lovemessage [ Teks ]*, contoh *${prefix}lovemessage SANKYU*`, id)
             client.reply(from, mess.wait, id)
             const lovemsg = body.slice(12)
             if (lovemsg.length > 10) return client.reply(from, '*Teks Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
@@ -3078,7 +3064,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case prefix+'romance':
-            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}romance [ Teks ]*, contoh *${prefix}romance ridho*`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}romance [ Teks ]*, contoh *${prefix}romance SANKYU*`, id)
             client.reply(from, mess.wait, id)
             const rmnc = body.slice(9)
             if (rmnc.length > 10) return client.reply(from, '*Teks Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
@@ -3086,7 +3072,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case prefix+'party':
-            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}party [ Teks ]*, contoh *${prefix}party ridho*`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}party [ Teks ]*, contoh *${prefix}party SANKYU*`, id)
             client.reply(from, mess.wait, id)
             const prty = body.slice(7)
             if (prty.length > 10) return client.reply(from, '*Teks Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
@@ -3094,7 +3080,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case prefix+'silk':
-            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}silk [ Teks ]*, contoh *${prefix}silk ridho*`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah *${prefix}silk [ Teks ]*, contoh *${prefix}silk SANKYU*`, id)
             client.reply(from, mess.wait, id)
             const slkz = body.slice(5)
             if (slkz.length > 10) return client.reply(from, '*Teks Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
@@ -3116,8 +3102,8 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#listprem':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            let lv = `Ini adalah list User premium RIDHO BOT\nTotal : ${premiumNumber.length}\n`
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            let lv = `Ini adalah list User premium SANKYU BOT\nTotal : ${premiumNumber.length}\n`
             for (let i of premiumNumber) {
                 lv += `➸ ${i.replace(/@c.us/g,'')}\n`
             }
@@ -3125,7 +3111,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#nekopoi':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (!isNsfw) return client.reply(from, 'command/Perintah NSFW belum di aktifkan di group ini!', id)
             if (args.length === 1) return client.reply(from, 'Kirim perintah *#nekopoi [linkNekopoi]*\nContoh : *#nekopoi https://nekopoi.care/tsunpuri-episode-1-subtitle-indonesia/*', id)
@@ -3145,7 +3131,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#subreddit':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             arg = body.trim().split(' ')
             const sr = arg[1]
             try {
@@ -3166,7 +3152,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#reader': 
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
            if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)                
            if (!quotedMsg) return client.reply(from, 'Balas/reply pesan saya kak', id)
@@ -3182,7 +3168,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
            break
 
         case '#pink':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
              if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
              if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
              const jrenge = body.slice(6)
@@ -3192,10 +3178,10 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
              await client.sendFileFromUrl(from, `https://api.vhtear.com/blackpinkicon?text=${jrenge}&apikey=${vhtearkey}`,`${jrenge}.jpg`,`dah jadi gan`, id)        
              break
         case `#thunder`:
-                if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+                if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
                 if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
                 if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya dapat digunakan didalam Group', id)
-                if (args.length === 1)return client.reply(from, `Kirim perintah ${prefix}thunder [text].\nContoh: ${prefix}thunder ridho`, id)
+                if (args.length === 1)return client.reply(from, `Kirim perintah ${prefix}thunder [text].\nContoh: ${prefix}thunder SANKYU`, id)
                 if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis.`, id)
                 const th = body.slice(9)
                 const tu = `https://api.vhtear.com/thundertext?text=${th}&apikey=${vhtearkey}`
@@ -3204,14 +3190,14 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                 await limitAdd(serial)
                 break
         case '#graffity':
-        if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+        if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
         if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
         const graffity = body.slice(10)
         const graffitystrz = await get.get('http://inyourdream.herokuapp.com/graffity?kata=' + graffity).json()
         client.sendFileFromUrl(from, graffitystrz.status, id)
         break
         case '#katacinta':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
             fetch('https://raw.githubusercontent.com/beniismael/whatsapp-bot/master/bucin.txt')
             .then(res => res.text())
@@ -3247,7 +3233,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                     break
 
         case '#shopee':
-                if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+                if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
                 if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
                 if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
                 if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik _limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -3270,26 +3256,17 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                 break
 
         case '#zodiak':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
-            if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
-            
-            await limitAdd(serial)
-            if (args.length === 1) return client.reply(from, 'Kirim perintah *#zodiak [zodiak kamu]*\nContoh : *#zodiak scorpio*', id)
-            try {
-            const resp = await axios.get('https://api.vhtear.com/zodiak?query=' + body.slice(8) + '&apikey=' + vhtearkey)
-            if (resp.data.error) return client.reply(from, resp.data.error, id)
-            const anm2 = `➸ Zodiak : ${resp.data.result.zodiak}\n➸ Ramalan : ${resp.data.result.ramalan}\n➸ Nomor Keberuntungan : ${resp.data.result.nomorKeberuntungan}\n➸ Motivasi : ${resp.data.result.motivasi}\n➸ Inspirasi : ${resp.data.result.inspirasi}`
-            client.reply(from, anm2, id)
-            } catch (err) {
-                console.error(err.message)
-                await client.sendFileFromUrl(from, errorurl2, 'error.png', '💔️ Maaf, Zodiak tidak ditemukan')
-                client.sendText(ownerNumber, 'Zodiak Error : ' + err)
-           }
+            if (args.length !== 5) return client.reply(from, `Untuk mengecek zodiak, gunakan ${prefix}zodiak nama tanggallahir bulanlahir tahunlahir\nContoh: ${prefix}zodiak fikri 13 06 2004`, id)
+            const cekzodiak = await rugaapi.cekzodiak(args[1],args[2],args[3])
+            await client.reply(from, cekzodiak, id)
+            .catch(() => {
+                client.reply(from, 'Ada yang Error!', id)
+            })
+            break
            break
 
         case '#tebakgambar':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)  
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -3315,7 +3292,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
            break
 
         case '#heroml':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
             
@@ -3334,14 +3311,14 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#tahta':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)  
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
     
              await limitAdd(serial)
              const jreng = body.slice(7)
-             if (!jreng) return client.reply(from, 'Kirim perintah *#tahta [teks]*\n\nContoh *#tahta RIDHO BOT*', id)
+             if (!jreng) return client.reply(from, 'Kirim perintah *#tahta [teks]*\n\nContoh *#tahta SANKYU BOT*', id)
              if (jreng.length > 7) return client.reply(from, 'Maksimal 7 Huruf!', id)
              client.sendText(from, '_Sedang diproses, mohon tunggu sebentar!..._', id)
              await client.sendFileFromUrl(from, `https://api.vhtear.com/hartatahta?text=${jreng}&apikey=${vhtearkey}`,`${jreng}.jpg`,`Harta Tahta ${jreng}`, id)        
@@ -3349,7 +3326,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
 
 
         case `${prefix}unreg`: //menghapus nomor dari database
-                    if (!isOwner) return client.reply(from, 'Fitur ini hanya dapat digunakan oleh Owner ridho')
+                    if (!isOwner) return client.reply(from, 'Fitur ini hanya dapat digunakan oleh Owner SANKYU')
                     if (args.length === 1) return aksa.reply(from, 'Masukkan nomornya, *GUNAKAN AWALAN 62* contoh: 6281289096745')
                     let inx = daftar.indexOf(args[1] + '@c.us')
                     daftar.splice(inx, 1)
@@ -3358,7 +3335,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                     break
 
         case `${prefix}yourpic`:
-                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
                     if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
                     for (let i = 0; i < mentionedJidList.length; i++) {
                         var ypic = await client.getProfilePicFromServer(mentionedJidList[i])
@@ -3372,7 +3349,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                     break
 
                 case `${prefix}mypic`:
-                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+                    if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
                     if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
                     const mpic = await client.getProfilePicFromServer(author)
                     if (mpic === undefined) {
@@ -3409,7 +3386,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                     break
 
         case '#math':
-             if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+             if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id) 
                 if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (args.length === 1) return client.reply(from, '[❗] Kirim perintah *#math [ Angka ]*\nContoh : #math 12*12\n*NOTE* :\n- Untuk Perkalian Menggunakan *\n- Untuk Pertambahan Menggunakan +\n- Untuk Pengurangan Mennggunakan -\n- Untuk Pembagian Menggunakan /', id)
@@ -3422,9 +3399,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
         break
 
         case '#pornhub':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
-            if (args.length === 1) return client.reply(from, `Kirim perintah #pornhub [ |Teks1|Teks2 ], contoh #pornhub |ridho|robot`, id)
+            if (args.length === 1) return client.reply(from, `Kirim perintah #pornhub [ |Teks1|Teks2 ], contoh #pornhub |SANKYU|robot`, id)
             argz = body.trim().split('|')
             if (argz.length >= 2) {
                 client.reply(from, mess.wait, id)
@@ -3435,7 +3412,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                 client.sendFileFromUrl(from, `https://api.vhtear.com/pornlogo?text1=${lpornhub}&text2=${lpornhub2}&apikey=${vhtearkey}`)
                 await limitAdd(serial)
             } else {
-                await client.reply(from, `Wrong Format!\n[❗] Kirim perintah #pornhub [ |Teks1|Teks2 ], contoh #pornhub |ridho|robot`, id)
+                await client.reply(from, `Wrong Format!\n[❗] Kirim perintah #pornhub [ |Teks1|Teks2 ], contoh #pornhub |SANKYU|robot`, id)
             }
             break
 
@@ -3448,7 +3425,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                         break
 
         case '#setgroupname':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, `Fitur ini hanya bisa di gunakan dalam group`, id)
             if (!isGroupAdmins) return client.reply(from, `Fitur ini hanya bisa di gunakan oleh admin group`, id)
             if (!isBotGroupAdmins) return client.reply(from, `Fitur ini hanya bisa di gunakan ketika bot menjadi admin`, id)
@@ -3461,7 +3438,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#getpic':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
             if (!isGroupMsg) return client.reply(from, `Fitur ini hanya bisa di gunakan dalam group`, id)
             const texnugm = body.slice(8)
@@ -3477,7 +3454,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#setprofilepic':
-            if (!isOwner) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner ridho bot!`, id)
+            if (!isOwner) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner SANKYU bot!`, id)
             if (isMedia) {
                 const mediaData = await decryptMedia(message)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
@@ -3494,21 +3471,21 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#setname':
-            if (!isOwner) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner ridho bot!`, id)
+            if (!isOwner) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner SANKYU bot!`, id)
                 const setnem = body.slice(9)
                 await client.setMyName(setnem)
                 client.sendTextWithMentions(from, `Makasih Nama Barunya @${sender.id.replace('@c.us','')} 😘`)
             break
 
         case '#setstatus':
-            if (!isOwner) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner ridho bot!`, id)
+            if (!isOwner) return client.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner SANKYU bot!`, id)
                 const setstat = body.slice(11)
                 await client.setMyStatus(setstat)
                 client.sendTextWithMentions(from, `Makasih Status Barunya @${sender.id.replace('@c.us','')} 😘`)
             break
 
         case '#setgroupicon':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, `Fitur ini hanya bisa di gunakan dalam group`, id)
             if (!isGroupAdmins) return client.reply(from, `Fitur ini hanya bisa di gunakan oleh admin group`, id)
             if (!isBotGroupAdmins) return client.reply(from, `Fitur ini hanya bisa di gunakan ketika bot menjadi admin`, id)
@@ -3528,9 +3505,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
     case '#sticker3d':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             //if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)             
-            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #sticker3d ridho', id)
+            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #sticker3d SANKYU', id)
             client.reply(from, mess.wait, id)
             const textnyi = body.slice(11)
             const gbrnyi = `https://docs-jojo.herokuapp.com/api/text3d?text=${textnyi}`
@@ -3538,9 +3515,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
     case '#stickerpetir':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             //if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)             
-            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerpetir ridho', id)
+            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerpetir SANKYU', id)
             client.reply(from, mess.wait, id)
             const texts = body.slice(14)
             const petirnyi = `https://docs-jojo.herokuapp.com/api/thunder?text=${texts}`
@@ -3548,9 +3525,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
     case '#stickerbp':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             //if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)             
-            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerbp ridho', id)
+            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerbp SANKYU', id)
             client.reply(from, mess.wait, id)
             const textnyu = body.slice(11)
             const bpnyi = `http://docs-jojo.herokuapp.com/api/blackpink?text=${textnyu}`
@@ -3559,9 +3536,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
 
     case '#stickerglitch':
     case '#stickglitch':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             //if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)             
-            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerglitch ridho|robot', id)
+            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerglitch SANKYU|robot', id)
             arg = body.trim().split('|')
             client.reply(from, mess.wait, id)
             const texta = arg[1]
@@ -3572,8 +3549,8 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
 
     case '#stickerph':
     case '#stickph':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerph ridho|robot', id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerph SANKYU|robot', id)
             arg = body.trim().split('|')
             client.reply(from, mess.wait, id)
             const ph3 = arg[1]
@@ -3584,8 +3561,8 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
 
     case '#stickerneon':
     case '#stickneon':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerph ridho|robot|bot', id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (args.length === 1) return client.reply(from, 'kirim perintah dengan contoh #stickerph SANKYU|robot|bot', id)
             arg = body.trim().split('|')
             client.reply(from, mess.wait, id)
             const textx = arg[1]
@@ -3596,7 +3573,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
     case '#sticker2':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (args.length == 0) return client.reply(from, `Untuk mencari sticker dari pinterest\nketik: ${prefix}sticker2 [search]\ncontoh: ${prefix}sticker2 naruto`, id)
             const cariwallu = body.slice(10)
             const hasilwallu = await images.fdci(cariwallu)
@@ -3606,16 +3583,32 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             })
             break
 
-        case '#loli':
-            if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
-           await limitAdd(serial)
-            const loli = await axios.get(`https://api.vhtear.com/randomloli&apikey=${vhtearkey}`)
-            const loly = loli.data.result
-            client.sendFileFromUrl(from, loly.result, 'loli.jpeg', '*LOLI*', id)
-            break
 
+            case '#loli':
+                const lolip = fs.readFileSync('./lib/loli.json')
+                const loliJsina = JSON.parse(lolip)
+                const loliIndix = Math.floor(Math.random() * loliJsina.length)
+                const loliKiy = loliJsina[loliIndix]
+                client.sendFileFromUrl(from, loliKiy.image, 'loli.jpg', loliKiy.teks, id)
+                break
+
+            case '#anime':
+                if (args.length == 1) return client.reply(from, `Untuk menggunakan ${prefix}anime\nSilahkan ketik: ${prefix}anime [query]\nContoh: ${prefix}anime random\n\nquery yang tersedia:\nrandom, waifu, husbu, neko`, id)
+                if (args[1] == 'random' || args[1] == 'waifu' || args[1] == 'husbu' || args[1] == 'neko') {
+                    fetch('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/random/anime/' + args[1] + '.txt')
+                    .then(res => res.text())
+                    .then(body => {
+                        let randomnime = body.split('\n')
+                        let randomnimex = randomnime[Math.floor(Math.random() * randomnime.length)]
+                        client.sendFileFromUrl(from, randomnimex, '', 'Nee..', id)
+                    })
+                    .catch(() => {
+                        client.reply(from, 'Ada yang Error!', id)
+                    })
+                } else {
+                    client.reply(from, `Maaf query tidak tersedia. Silahkan ketik ${prefix}anime untuk melihat list query`)
+                }
+                break
         case '#husbu':
             if (isLimit(serial)) return client.reply(from, `${ubah}Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu${ubah}`, id)
             //if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
@@ -3734,29 +3727,30 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             client.sendFileFromUrl(from, `${url}`, 'meme.jpg', `${title}`)
             break
         
-        case '#mememaker':
-            if ((isMedia || isQuotedImage) && args.length >= 3) {
-                const top = arg.split('|')[0]
-                const bottom = arg.split('|')[1]
-                const encryptMedia = isQuotedImage ? quotedMsg : message
-                const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                const getUrl = await uploadImages(mediaData, false)
-                const ImageBase64 = await meme.custom(getUrl, top, bottom)
-                client.sendFile(from, ImageBase64, 'image.png', '', null, true)
-                    .then(() => {
-                        client.reply(from, 'Ini makasih!',id)
-                    })
-                    .catch(() => {
-                        client.reply(from, 'Ada yang error!')
-                    })
-            } else {
-                await client.reply(from, `Tidak ada gambar! Silahkan kirim gambar dengan caption ${prefix}mememaker <teks_atas> | <teks_bawah>\ncontoh: ${prefix}mememaker teks atas | teks bawah`, id)
-            }
-            break
+	
+            case '#mememaker':
+                if ((isMedia || isQuotedImage) && args.length >= 2) {
+                    const top = arg.split('|')[1]
+                    const bottom = arg.split('|')[2]
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const getUrl = await uploadImages(mediaData, false)
+                    const ImageBase64 = await meme.custom(getUrl, top, bottom)
+                    client.sendFile(from, ImageBase64, 'image.png', '', null, true)
+                        .then(() => {
+                            client.reply(from, 'Ini makasih!',id)
+                        })
+                        .catch(() => {
+                            client.reply(from, 'Ada yang error!')
+                        })
+                } else {
+                    await client.reply(from, `Tidak ada gambar! Silahkan kirim gambar dengan caption ${prefix}mememaker <teks_atas> | <teks_bawah>\ncontoh: ${prefix}mememaker teks atas | teks bawah`, id)
+                }
+                break
 
         case '#bug':
             /* if (!isGroupMsg) return client.reply(from, 'Bot sekarang hanya bisa digunakan digrup saja! untuk dimasukan ke grup bot ini sifatnya berbayar, konfirmasi ke owner bot wa.me/6282235205986 untuk pertanyaan lebih lanjut', id)         */
-            if (args.length === 1) return client.reply(from, `Kirim laporan bug dengan cara ketik perintah :\n*#bug* _Ketik pesan_\nContoh :\n*!bug* _Bug di perintah !musik tolong fix_`, id)
+            if (args.length === 1) return client.reply(from, `Kirim laporan bug dengan cara ketik perintah :\n*#bug* _Ketik pesan_\nContoh :\n*#bug* _Bug di perintah #musik tolong fix_`, id)
             const ygingin = body.slice(5)
             await client.sendText(ownerNumber, `*BUG!!!* :\n\n*From* ${pushname}\n*Grup* : ${name}\n*WA* : wa.me/${sender.id.replace('@c.us','')}\n*Message From* : ${from}\n*Message ID* : ${id}\n*Content* : ${ygingin}\n*TimeStamp* : ${time}`)
             client.reply(from, `_[DONE] Laporan telah terkirim, mohon kirim laporan dengan jelas atau kami tidak akan menerima laporan tersebut sebagai bug!_`, id)
@@ -3795,7 +3789,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                 break
 
            case '#caklontong':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id) 
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -3822,7 +3816,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
            break
 
         case '#family100':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id) 
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
@@ -3849,7 +3843,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
            break
 
         case '#nomorhoki':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
             
@@ -3868,7 +3862,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#artimimpi':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
             
@@ -3887,7 +3881,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case `${prefix}ptlvid`:
-                if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
+                if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)           
                 if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
                 if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
@@ -3900,7 +3894,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
                     break
 
         case '#kbbi':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
             if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)
             if (args.length === 1) return client.reply(from, `Kirim perintah *#kbbi [ Query ]*\nContoh : *#kbbi asu*`, id)
@@ -3916,23 +3910,20 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#shorturl':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isPrem) return client.reply(from, 'Maaf, perintah ini hanya dapat dilakukan oleh user premium, untuk upgrade hubungi owner ketik *_#owner_*', id)
-            if (!isGroupMsg) return client.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
-            if (isLimit(serial)) return client.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik #limit Untuk Mengecek Kuota Limit Kamu`, id)           
-            await limitAdd(serial)
-            if (args.length === 1) return client.reply(from, 'Kirim perintah *#shorturl [linkWeb]*\nContoh : *#shorturl https://neonime.vip*', id)
-            const surl = await axios.get('https://api.vhtear.com/shortener?link=' + body.slice(10) + '&apikey=' + vhtearkey)
-            const surll = surl.data
-            if (surll.error) return client.reply(from, ssww.error, id)
-            const surl2 = `Link : ${surll.result.Url}\nShort URL : ${surll.result.Short}`
-            client.sendText(from, surl2, id)
+        case '#tinyurl':
+            if (args.length == 1) return client.reply(from, `ketik ${prefix}shorturl <url>`, id)
+            if (!isUrl(args[1])) return client.reply(from, 'Maaf, url yang kamu kirim tidak valid.', id)
+            const shortlink = await urlShortener(args[1])
+            await client.sendText(from, shortlink)
+            .catch(() => {
+                client.reply(from, 'Ada yang Error!', id)
+            })
             break
 
         case '#wa.me':
         case '#wame':
-        if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-        await client.reply(from, `*Neh Mhank Link Nomor Wa Lu ${pushname}*\n\n*wa.me/${sender.id.replace(/[@c.us]/g, '')}*\n\n*Atau*\n\n*api.whatsapp.com/send?phone=${sender.id.replace(/[@c.us]/g, '')}*`, id)
+        if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+        await client.reply(from, `*Silahkan kakak ${pushname}*\n\nwa.me/${sender.id.replace(/[@c.us]/g, '')}`, id)
             break
 
         case '#kpop':
@@ -3953,7 +3944,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
 
         case 'makasih':
         case 'thanks':
-            return client.reply(from, `Sama-Sama Bor`)
+        case 'terimkasih':
+        case 'tks':
+            return client.reply(from, `kochirakoso arigatou`)
             break   
 
         case '#berita':
@@ -3981,14 +3974,14 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
           await client.sendText(from, pesan)
           break 
         case '#spek':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
             const iscas = await client.getIsPlugged() ? "charging 🔌" : "not charging 💻"
             const MyPhone = await client.getMe()
             client.sendText(from, `*INFORMASI:*\n🔋BATTERY : ${MyPhone.battery}% ${iscas}\n💻HOST : ${os.hostname()}\n📱DEVICE : ${MyPhone.phone.device_manufacturer}\n🖥PLATFORM : ${os.platform()}\n\n`, id)
             break
 
         case '#daftar':
-             if (args.length === 1) return client.reply(from, '*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#*daftar 6281289096745|ridho|17* \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX!_*', id)
+             if (args.length === 1) return client.reply(from, '*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#*daftar 6281289096745|SANKYU|17* \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX!_*', id)
             let datadaftar = JSON.parse(fs.readFileSync('./lib/daftar.json', 'utf8'))
             const no = sender.id.replace(/[@c.us]/g,'')
             const istelahdaftar = datadaftar.includes(sender.id) ? false : true
@@ -4009,12 +4002,12 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             {
             daftar.push(no+'@c.us')
             fs.writeFileSync('./lib/daftar.json', JSON.stringify(daftar))
-            client.sendFileFromUrl(from, pict, 'pfp.jpg', `*DAFTAR SUKSES DENGAN FORMAT*\n\n*User Profile* ✨ \n\n*➸ Username: ${namao}*\n\n*➸ User Info: ${status.status}*\n\n*➸ NOMOR : ${nomor}* \n\n*➸ NAMA : ${nama}* \n\n*➸ UMUR : ${umur} TAHUN* \n\n*➸ TIME : ${tgl}-${bln}-${thn}* \n\n\n*➸ [ ${daftar.length} ] PENGGUNA YANG TERDAFTAR* \n\n*➸ [ ${chati.length} ] PENGGUNA RIDHO BOT*\n\n*➸ [ ${group.length} ] GROUP RIDHO BOT* \n\n*TERIMAKASIH SUDAH IKUT BERGABUNG DI RIDHO BOT*`, id)
+            client.sendFileFromUrl(from, pict, 'pfp.jpg', `*DAFTAR SUKSES DENGAN FORMAT*\n\n*User Profile* ✨ \n\n*➸ Username: ${namao}*\n\n*➸ User Info: ${status.status}*\n\n*➸ NOMOR : ${nomor}* \n\n*➸ NAMA : ${nama}* \n\n*➸ UMUR : ${umur} TAHUN* \n\n*➸ TIME : ${tgl}-${bln}-${thn}* \n\n\n*➸ [ ${daftar.length} ] PENGGUNA YANG TERDAFTAR* \n\n*➸ [ ${chati.length} ] PENGGUNA SANKYU BOT*\n\n*➸ [ ${group.length} ] GROUP SANKYU BOT* \n\n*TERIMAKASIH SUDAH IKUT BERGABUNG DI SANKYU BOT*`, id)
              }
             break
 
         case '#reg':
-            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner RIDHO BOT!', id)
+            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner SANKYU BOT!', id)
            const reg = body.slice(5)
             {
             daftar.push(reg+'@c.us')
@@ -4024,9 +4017,9 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#listdaftar':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner RIDHO BOT!', id)
-            let ld = `INI ADALAH USER YANG SUDAH DAFTAR DI RIDHO BOT\nTotal : ${daftar.length}\n`
+            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
+            if (!isOwner) return client.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner SANKYU BOT!', id)
+            let ld = `INI ADALAH USER YANG SUDAH DAFTAR DI SANKYU BOT\nTotal : ${daftar.length}\n`
             for (let i of daftar) {
                 ld += `➸ ${i.replace(/@c.us/g,'')}\n`
             }
@@ -4036,8 +4029,8 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
         case 'halo bot':
         case 'ini bot?':
         case 'bg':
-        case 'ridho':
-        case 'bg ridho':
+        case 'SANKYU':
+        case 'bg SANKYU':
         case 'hai':
         case 'cok':
         case 'cuk':
@@ -4046,7 +4039,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
         case 'bang':
         case 'bor':
         case 'kk':
-            client.reply(from, `Iya ? ada apa bor ? mending ketik *#menu* untuk melihat fitur bot`, id)
+            client.reply(from, mystest,`Iya ? ada apa ?`, id)
             break
 
         case 'p':
@@ -4059,14 +4052,8 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
              break   
 
         case '#help':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            const no2 = sender.id.replace(/[@c.us]/g,'')
-            var pict = await client.getProfilePicFromServer(no2)
-            client.sendFileFromUrl(from, pict, 'pfp.jpg', `════════════════\n'''HAI MAU MINTA TOLONG APA?'''\n\n════════════════\n\n*NAMA : ${pushname}*\n\n════════════════\n\n*UNTUK MELIHAT MENU KETIK* #menu sayang...\n\n`)
-            break
-
         case '#menu':
-            if (!isdaftar) return client.reply(from, `${ubah}*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*${ubah}`, id)
+            if (!isdaftar) return client.reply(from, `${ubah}*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*${ubah}`, id)
             client.sendText(from, help)
             break
 
@@ -4076,23 +4063,6 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             client.sendFileFromUrl(from, pict1, 'pfp.jpg', `#cmd
                 #Profile`, id)
                 break
-
-        case '#diamond':
-            client.reply(from, diamond, id)
-            break
-
-        case '#ff':
-            if (args.length === 1) return client.reply(from, `CARA ORDER ✨  \n#ff [NO ID : ] [ DIAMOND : ] \nCONTOH : #ff NO ID 243240776 DIAMOND 500💎 TUNGGU ADMIN CHAT KAMU`, id)
-            const ff = body.slice(4)
-            if(!ff) return 
-            if (isGroupMsg){
-            client.sendText(ownerNumber, `*[ORDER]*\n*WAKTU : ${time}*\n*NO PENGIRIM : wa.me/${sender.id.match(/\d+/g)}*\n*GROUP : ${formattedTitle}*\n\n*ISI PESAN : ${ff}*`)
-            client.reply(from, `*PESANAN ${pushname} AKAN SEGERA DI TANGGAPI OLEH ADMIN DAN ADMIN AKAN CHAT ${pushname} SEGERA*.` ,id)
-            }else{
-            client.sendText(ownerNumber, `*[PSAN]*\n*WAKTU* : ${time}\nNO PENGIRIM : wa.me/${sender.id.match(/\d+/g)}\n\n*ISI PESAN : ${ff}*`)
-            client.reply(from, `*PESANAN ${pushname} AKAN SEGERA DI TANGGAPI OLEH ADMIN DAN ADMIN AKAN CHAT ${pushname} SEGERA*.` ,id)
-            }
-            break
 
         case '#peraturan':
             client.reply(from, peraturan, id)
@@ -4120,7 +4090,7 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
             break
 
         case '#cmd':
-            if (!isdaftar) return client.reply(from, `${ubah}*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*${ubah}`, id)
+            if (!isdaftar) return client.reply(from, `${ubah}*NOMOR KAMU BELUM TERDAFTAR DI SANKYU BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|SANKYU|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*${ubah}`, id)
             client.reply(from, cmd, id)
             break
 
@@ -4154,171 +4124,8 @@ WHATSAPP   : https://wa.me/6281289096745\nJangan Lupa bantu subscribe follow ya 
     case 'coba':
         client.sendPtt(from, './media/tts/resId.mp3', id)
         break
-    case '*penantian*':
-            client.sendPtt(from, './mp3/penantian.mp3', id)
-            break
-    case 'halo':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/tapi boong.mpeg', id)
-            break
-        case 'hallo':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/dalem sayang.mpeg', id)
-            break
-        case '*ikan*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/ikan hiu makan tomat.mp3', id)
-            break
-        case '*jujur*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/jujur sa su bilang.mp3', id)
-            break
-        case '*karna*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/karena ada ko.mp3', id)
-            break
-        case '*pergi*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/kini ku tlah pergi.mp3', id)
-            break
-        case '*brubah*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/ko langsung brubah.mp3', id)
-            break
-        case '*kopidangdut*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/kopi dangdut koplo.mp3', id)
-            break
-        case '*kopidangdut2*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/kopi dangdut.mp3', id)
-            break
-        case '*kutimangtimang*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/kutimang timang adik ku sayang.mp3', id)
-            break
-        case '*lupakanlah*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/lupakanlah semua.mp3', id)
-            break
-        case '*menantikoplo*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/menanti koplo.mp3', id)
-            break
-        case '*penantian*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/penantian.mp3', id)
-            break
-        case '*perlahan*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/perlahan.mp3', id)
-            break
-        case '*sapamit*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/sa pamit mu pulang.mp3', id)
-            break
-        case '*bosanko*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/sayang kalao ko bosan ko bilang.mp3', id)
-            break
-        case '*yangkuberikan*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/semua yang tlah ku berikan.mp3', id)
-            break
-        case '*kesepian*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/sephia kesepian.mp3', id)
-            break
-        case '*mangkadadang*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/tiap hari mangkadadang.mp3', id)
-            break
-        case '*tibangbang*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/tibang bang.mp3', id)
-            break
-        case '*mencintaimu*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/aku mentaimu.mp3', id)
-            break
-        case '*alealemilo*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/aleale milo.mp3', id)
-            break
-        case '*amongus*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/among us 2.mp3', id)
-            break
-        case '*amongus2*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/among us.mp3', id)
-            break
-        case '*atmyworst*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/atmyworst.mpeg', id)
-            break
-        case '*potapota*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/potapota.mp3', id)
-            break
-        case '*djpotapota*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/djpotapota.mp3', id)
-            break
-        case '*berentikasihan*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/berentikasihan.mpeg', id)
-            break
-        case '*djodaing*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/djodaing.mpeg', id)
-            break
-        case '*kangcopet*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/kangcopet.mpeg', id)
-            break
-        case '*djbgjono*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/djbgjono.mpeg', id)
-            break
-        case '*maduaholong*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/maduaholong.mpeg', id)
-            break
-        case '*memoriberkasih*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/memoriberkasih.mpeg', id)
-            break
-        case '*youbroke*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/youbroke.mpeg', id)
-            break
-        case '*djkeringetan*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/djkeringetan.mpeg', id)
-            break
-        case '*harus*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/harus.mpeg', id)
-            break
-        case '*karnaadako*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/karnaadako.mpeg', id)
-            break
-        case '*melepaskanmu*':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/melepaskanmu.mpeg', id)
-            break
-        case 'hai':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/dalem sayang.mpeg', id)
-            break
-        case 'iri':
-            if (!isdaftar) return client.reply(from, `*NOMOR KAMU BELUM TERDAFTAR DI RIDHO BOT* \n\n*SILAHKAN LAKUKAN PENDAFTARAN DENGAN CARA KETIK* \n\n#daftar nomor|nama|umur \n\nCONTOH : \n\n#daftar 6281289096745|ridho|17 \n\n*_PENULISAN NOMOR HARUS MENGGUNAKAN 62812XXXXX_*`, id)
-            client.sendPtt(from, './mp3/iri.mpeg', id)
-            break
             default:
-            if (!isGroupMsg) return client.reply(from, `${ubah}BOT INI MENGGUNAKAN PREFIX${ubah} #\n\n${ubah}INI ADALAH RIDHO BOT UNTUK MENAMPILKAN MENU KETIK${ubah} *#menu*\n\n${ubah}YANG BELUM DAFTAR KETIK${ubah} *#daftar*\n\n${ubah}JOIN GRUB RIDHO BOT KETIK${ubah} *#ridhogroup*\n ${ubah}ADA PERTANYAAN HUBUNGI OWNER BOT${ubah} https://wa.me/6281289096745 CARA PENGGUNAAN BOT : https://www.youtube.com/watch?v=wGE7U8mI2JM`, id)
+            if (!isGroupMsg) return client.reply(from, `${ubah}BOT INI MENGGUNAKAN PREFIX${ubah} #\n\n${ubah}INI ADALAH SANKYU BOT UNTUK MENAMPILKAN MENU KETIK${ubah} *#menu*\n\n${ubah}YANG BELUM DAFTAR KETIK${ubah} *#daftar*\n\n${ubah}JOIN GRUB SANKYU BOT KETIK${ubah} *#SANKYUgroup*\n ${ubah}ADA PERTANYAAN HUBUNGI OWNER BOT${ubah} https://wa.me/6281289096745 CARA PENGGUNAAN BOT : https://www.youtube.com/watch?v=wGE7U8mI2JM`, id)
             if (command.startsWith('#')) {
                 client.reply(from, `Maaf ${pushname}, Command *${args[0]}* Tidak Terdaftar Di Dalam *#menu*`, id)
             }

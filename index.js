@@ -31,7 +31,7 @@ function restartAwal(client){
     isRestart = false
     client.sendText(setting.restartId, 'Restart Succesfull!')
     setting.restartId = 'undefined'
-    //fs.writeFileSync('./lib/setting.json', JSON.stringify(setting, null,2));
+    fs.writeFileSync('./lib/setting.json', JSON.stringify(setting, null,2));
 }
 
 
@@ -92,7 +92,7 @@ const start = async (client = new Client()) => {
         })
         } else {
         await client.simulateTyping(chat.id, true).then(async () => {
-          await client.sendText(chat.id, `Hai minna~, Im RIDHO BOT. To find out the commands on this bot type #menu`)
+          await client.sendText(chat.id, `Hai minna~, Im SANKYU BOT. To find out the commands on this bot type #menu`)
         })
         }
     }
