@@ -99,10 +99,10 @@ const start = async (client = new Client()) => {
     })
 
         // listening on Incoming Call
-        client.onIncomingCall(( async (call) => {
+        /*client.onIncomingCall(( async (call) => {
             await client.sendText(call.peerJid, 'Maaf, saya tidak bisa menerima panggilan. nelfon = block!.\nbila ingin di unblock kamu harus berdonasi dan hubungi whatsapp owner: wa.me/6281289096745')
             .then(() => client.contactBlock(call.peerJid))
-        }))
+        }))*/
     }
 
     function nocache(module, cb = () => { }) {
