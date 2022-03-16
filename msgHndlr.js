@@ -1723,6 +1723,12 @@ Kesamaan: ${pisahkan}%`
             client.sendContact(chatId, `6281289096745@c.us`)
             client.reply(from, 'tu owner saya:) ada yang di tanyakan, jangan di spam atau telpon', id)
             break
+            
+            default:
+            if (!isGroupMsg) return client.reply(from, `${ubah}BOT INI MENGGUNAKAN PREFIX${ubah} #\n\n${ubah}INI ADALAH SANKYU BOT UNTUK MENAMPILKAN MENU KETIK${ubah} *#menu*\n\n${ubah}YANG BELUM DAFTAR KETIK${ubah} *#daftar*\n\n${ubah}JOIN GRUB SANKYU BOT KETIK${ubah} *#SANKYUgroup*\n ${ubah}ADA PERTANYAAN HUBUNGI OWNER BOT${ubah} https://wa.me/6281289096745 CARA PENGGUNAAN BOT : https://www.youtube.com/watch?v=wGE7U8mI2JM`, id)
+            if (command.startsWith('#')) {
+                client.reply(from, `Maaf ${pushname}, Command *${args[0]}* Tidak Terdaftar Di Dalam *#menu*`, id)
+            }
         }
     } catch (err) {
         console.log(color('[ERROR]', 'red'), err)
